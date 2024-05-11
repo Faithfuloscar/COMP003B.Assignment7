@@ -22,7 +22,8 @@ namespace COMP003B.Assignment7.Controllers
         // GET: Records
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Records.ToListAsync());
+            var musicContext = _context.Records.Include(r => r.Artist).Include(r => r.Songs);
+            return View(await musicContext.ToListAsync());
         }
 
         // GET: Records/Details/5
@@ -34,6 +35,8 @@ namespace COMP003B.Assignment7.Controllers
             }
 
             var records = await _context.Records
+                .Include(r => r.Artist)
+                .Include(r => r.Songs)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (records == null)
             {
@@ -46,6 +49,8 @@ namespace COMP003B.Assignment7.Controllers
         // GET: Records/Create
         public IActionResult Create()
         {
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName");
+            ViewData["SongId"] = new SelectList(_context.Songs, "SongId", "SongName");
             return View();
         }
 
@@ -54,7 +59,7 @@ namespace COMP003B.Assignment7.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ArtistName,SongName")] Records records)
+        public async Task<IActionResult> Create([Bind("Id,ArtistId,SongId")] Records records)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +67,8 @@ namespace COMP003B.Assignment7.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName", records.ArtistId);
+            ViewData["SongId"] = new SelectList(_context.Songs, "SongId", "SongName", records.SongId);
             return View(records);
         }
 
@@ -78,6 +85,8 @@ namespace COMP003B.Assignment7.Controllers
             {
                 return NotFound();
             }
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName", records.ArtistId);
+            ViewData["SongId"] = new SelectList(_context.Songs, "SongId", "SongName", records.SongId);
             return View(records);
         }
 
@@ -86,7 +95,7 @@ namespace COMP003B.Assignment7.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ArtistName,SongName")] Records records)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ArtistId,SongId")] Records records)
         {
             if (id != records.Id)
             {
@@ -113,6 +122,8 @@ namespace COMP003B.Assignment7.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "ArtistName", records.ArtistId);
+            ViewData["SongId"] = new SelectList(_context.Songs, "SongId", "SongName", records.SongId);
             return View(records);
         }
 
@@ -125,6 +136,8 @@ namespace COMP003B.Assignment7.Controllers
             }
 
             var records = await _context.Records
+                .Include(r => r.Artist)
+                .Include(r => r.Songs)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (records == null)
             {

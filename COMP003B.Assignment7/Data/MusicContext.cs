@@ -5,7 +5,9 @@ namespace COMP003B.Assignment7.Data
     public class MusicContext : DbContext
     {
         public MusicContext(DbContextOptions<MusicContext> options) : 
-            base(options) { }
+            base(options) 
+        { 
+        }
 
         public DbSet<Song> Songs { get; set; }
 

@@ -12,5 +12,6 @@ namespace COMP003B.Assignment7.Models
         
         // Collection navigation property
         public virtual ICollection <Records>? Records { get; set; }
+
     }
 }

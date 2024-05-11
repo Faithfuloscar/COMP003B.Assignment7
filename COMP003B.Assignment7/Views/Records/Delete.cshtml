@@ -12,16 +12,16 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArtistId)
+            @Html.DisplayNameFor(model => model.Songs)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ArtistId)
+            @Html.DisplayFor(model => model.Songs.SongName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SongId)
+            @Html.DisplayNameFor(model => model.Artist)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SongId)
+            @Html.DisplayFor(model => model.Artist.ArtistName)
         </dd>
     </dl>
     
